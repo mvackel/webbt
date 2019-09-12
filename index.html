@@ -33,11 +33,12 @@ ledsOff.addEventListener('click', doToggle);
 function doConnect() { 
 	<!-- alert('You triggered an alert!'); -->
     navigator.bluetooth.requestDevice({
-        filters: [
-			{ name: 'BT05' }
-			//,
-			//{ services: [0xFFE0] },
-		]
+        //filters: [
+		//	{ name: 'BT05' }
+		//	//,
+		//	//{ services: [0xFFE0] },
+		//]
+		acceptAllDevices:true
 	})
     .then(device => {
       myDevice = device;
