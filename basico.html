@@ -16,11 +16,12 @@
 function doFuncao() { 
 	<!-- alert('You triggered an alert!'); -->
   navigator.bluetooth.requestDevice({
-    filters:
+    <!-- filters:
       [
         { name: 'BT05' },
         { services: [0xFFE0] },
-      ]
+      ] -->
+     acceptAllDevices:true
   })}
 </script>
 
