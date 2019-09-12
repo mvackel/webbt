@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,minimum-scale=1,initial-scale=1" name="viewport">
+    <title>Teste Web Bluetooth com Leds</title>
+    <link rel="stylesheet" href="./common.css">
+</head>
+<body>
+<header>
+    <h1>Teste Web Bluetooth com Leds e Nano</h1>
+</header>
+<main>
+    <ul class="control-buttons">
+        <li class="visible">
+            <button id="connectButton">Conectar</button>
+        </li><li>
+            <button id="disconnectButton">Desconectar</button>
+        </li><li>
+            <button id="lightOff">Desliga Leds</button>
+        </li><li>
+            <button id="toggleRedLight" data-code="2">On/Off Vermelho</button>
+        </li><li>
+            <button id="toggleBlueLight" data-code="4">On/Off Azul</button>
+        </li><li>
+            <button id="toggleGreenLight" data-code="3">On/Off Verde</button>
+        </li><li>
+            <button id="runBlinkLight" data-code="1">Piscar</button>
+        </li>
+    </ul>
+</main>
+<script src="./index.js"></script>
+</body>
+</html>
