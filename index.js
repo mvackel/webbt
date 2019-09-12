@@ -32,6 +32,7 @@ function connectButtonPointerUpHandler() {
     //  ],
       acceptAllDevices:true
   })
+  /*
     .then(device => {
       myDevice = device;
 
@@ -48,6 +49,7 @@ function connectButtonPointerUpHandler() {
     .catch(error => {
       console.error(error);
     });
+    */
 }
 
 function lightOffButtonClickHandler() {
