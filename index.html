@@ -1,34 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width,minimum-scale=1,initial-scale=1" name="viewport">
     <title>Teste Web Bluetooth com Leds</title>
-    <link rel="stylesheet" href="./common.css">
 </head>
 <body>
 <header>
-    <h1>Teste Web Bluetooth com Leds e Nano</h1>
+    <h1>Basico Teste Web Bluetooth com Leds e Nano</h1>
 </header>
-<main>
-    <ul class="control-buttons">
-        <li class="visible">
-            <button id="connectButton">Conectar</button>
-        </li><li>
-            <button id="disconnectButton">Desconectar</button>
-        </li><li>
-            <button id="lightOff">Desliga Leds</button>
-        </li><li>
-            <button id="toggleRedLight" data-code="2">On/Off Vermelho</button>
-        </li><li>
-            <button id="toggleBlueLight" data-code="4">On/Off Azul</button>
-        </li><li>
-            <button id="toggleGreenLight" data-code="3">On/Off Verde</button>
-        </li><li>
-            <button id="runBlinkLight" data-code="1">Piscar</button>
-        </li>
-    </ul>
-</main>
-<script src="./index.js"></script>
+
+<input id="connectButton" type="button" value="Conectar"  />
+<input id="toggleRed" type="button" value="On/Off Vermelho" data-code="2" disabled />
+<input id="toggleGreen" type="button" value="On/Off Verde" data-code="3" disabled />
+<input id="toggleBlue" type="button" value="On/Off Azul" data-code="4" disabled />
+<input id="runBlink" type="button" value="Piscar" data-code="1" disabled />
+<input id="ledsOff" type="button" value="Desligar Leds" data-code="0" disabled />
+<input id="disconnectButton" type="button" value="Desconectar" onclick="doDisconnect()" disabled />
+<!-- <input id="connectButton" type="button" value="clickme" onclick="doFunction();" />
+-->
+
+<script>
+const SEND_SERVICE = 0xFFE0;
+const SEND_SERVICE_CHARACTERISTIC = 0xFFE1;
+let myDevice;
+let toggleLigthCharacteristic;
+
+connectButton.addEventListener('click', doConnect);
+toggleRed.addEventListener('click', doToggle);
+toggleGreen.addEventListener('click', doToggle);
+toggleBlue.addEventListener('click', doToggle);
+runBlink.addEventListener('click', doToggle);
+ledsOff.addEventListener('click', doToggle);
+
+function doConnect() { 
+	<!-- alert('You triggered an alert!'); -->
+    navigator.bluetooth.requestDevice({
+        filters: [
+			{ name: 'BT05' }
+			//,
+			//{ services: [0xFFE0] },
+		]
+	})
+    .then(device => {
+      myDevice = device;
+
+      return device.gatt.connect();
+    })
+    .then(server => server.getPrimaryService(SEND_SERVICE))
+    .then(service => service.getCharacteristic(SEND_SERVICE_CHARACTERISTIC))
+    .then(characteristic => {
+      toggleLigthCharacteristic = characteristic;
+
+      disableButtons(false);
+      //toggleItemsEventListeners('addEventListener');
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
+  }
+  
+function disableButtons(onOff) {
+	document.getElementById("toggleRed").disabled = onOff;
+	document.getElementById("toggleBlue").disabled = onOff;
+	document.getElementById("toggleGreen").disabled = onOff;
+	document.getElementById("runBlink").disabled = onOff;
+	document.getElementById("ledsOff").disabled = onOff;
+	document.getElementById("disconnectButton").disabled = onOff;
+}
+  
+function doToggle(event) {
+  const code = Number(event.target.dataset.code);
+
+  if (code === 1) {
+    toggleLigthCharacteristic.writeValue(Uint8Array.of(code));
+
+    return;
+  }
+
+  toggleLigthCharacteristic.readValue()
+    .then(currentCode => {
+      const convertedCode = currentCode.getUint8(0);
+
+      toggleLigthCharacteristic.writeValue(Uint8Array.of(convertedCode === code ? 0 : code));
+    });
+}  
+
+function doDisconnect() {
+	//lightOffButtonClickHandler()
+    //.then( () => {
+      myDevice.gatt.disconnect();
+
+      //toggleItemsEventListeners('removeEventListener');
+      //toggleButtonsVisible();
+	  disableButtons(true);
+
+      toggleLigthCharacteristic = undefined;
+      myDevice = undefined;
+    //});
+}
+</script>
+
+
+<!-- <script src="./index.js"></script> -->
+<!-- <script type="text/javascript" src="index.js"></script> -->
+
 </body>
 </html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Teste Web Bluetooth com Leds</title>
+</head>
+<body>
+<header>
+    <h1>Basico Teste Web Bluetooth com Leds e Nano X</h1>
+</header>
+
+<input id="connectButton" type="button" value="Conectar" onclick="doFuncao()" />
+<!-- <input id="connectButton" type="button" value="clickme" onclick="doFunction();" />
+-->
+
+<script>
+function doFuncao() { 
+	<!-- alert('You triggered an alert!'); -->
+  navigator.bluetooth.requestDevice({
+    filters:
+      [
+        { name: 'BT05' }
+		//,        { services: [0xFFE0] },
+      ]
+  })}
+</script>
+
+
+<!-- <script src="./index.js"></script> -->
+<!-- <script type="text/javascript" src="index.js"></script> -->
+
+</body>
+</html>
