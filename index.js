@@ -27,7 +27,8 @@ function connectButtonPointerUpHandler() {
     filters:
       [
         { name: MY_BLUETOOTH_NAME },
-        { services: [SEND_SERVICE] },
+        //{ services: [SEND_SERVICE] },
+        acceptAllDevices:true
       ]
   })
     .then(device => {
