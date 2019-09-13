@@ -45,18 +45,20 @@ function doConnect() {
 
       return device.gatt.connect();
     })
-    .then(server => server.getPrimaryService(SEND_SERVICE))
-    .then(service => service.getCharacteristic(SEND_SERVICE_CHARACTERISTIC))
+    .then(server => {console.log(server); return server.getPrimaryService(SEND_SERVICE);})
+    .then(service => {console.log(service); return service.getCharacteristic(SEND_SERVICE_CHARACTERISTIC); })
     .then(characteristic => {
       toggleLigthCharacteristic = characteristic;
 
       disableButtons(false);
       //toggleItemsEventListeners('addEventListener');
     })
+	//.then( dev => {myDevice = device; disableButtons(false); });
+	/*
     .catch(error => {
       console.error(error);
     });
-
+*/
   }
   
 function disableButtons(onOff) {
